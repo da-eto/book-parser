@@ -2,6 +2,12 @@
     "doctrine/inflector": {
         "version": "1.4.3"
     },
+    "erusev/parsedown": {
+        "version": "1.7.1"
+    },
+    "lywzx/php-epub": {
+        "version": "v0.1.2"
+    },
     "nikic/php-parser": {
         "version": "v4.4.0"
     },

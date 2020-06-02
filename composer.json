@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "ext-libxml": "*",
         "ext-simplexml": "*",
+        "lywzx/php-epub": "^0.1.2",
         "prewk/xml-string-streamer": "^0.13.0",
         "symfony/console": "5.1.*",
         "symfony/dotenv": "5.1.*",
