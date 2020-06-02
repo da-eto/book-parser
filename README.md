@@ -30,5 +30,10 @@ root@app:/var/www# php bin/console doctrine:migrations:migrate
 Добавление книг в библиотеку:
 ```shell script
 root@app:/var/www# php bin/console book:load data/books/light.epub
-root@app:/var/www# php bin/console book:load data/books/devil.fb2
+root@app:/var/www# php bin/console book:load data/books/alice.fb2
+```
+
+Поиск книги по названию:
+```shell script
+root@app:/var/www# php bin/console book:search Alice
 ```

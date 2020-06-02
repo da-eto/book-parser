@@ -62,4 +62,18 @@ class BookRepository extends ServiceEntityRepository
 
         return $book;
     }
+
+    /**
+     * Находит книги с именем, похожим на переданное.
+     * @param $title
+     * @return iterable|Book[]
+     */
+    public function findByTitleLike($title): iterable
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.title LIKE :title')
+            ->setParameter('title', '%' . $title . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }

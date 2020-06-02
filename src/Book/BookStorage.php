@@ -53,4 +53,13 @@ class BookStorage
 
         return $book;
     }
+
+    /**
+     * @param $title
+     * @return iterable|Book[]
+     */
+    public function searchBooks($title): iterable
+    {
+        return $this->bookRepository->findByTitleLike($title);
+    }
 }
