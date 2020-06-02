@@ -25,3 +25,11 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    _instanceof:
+        App\Book\Loader\BookLoaderInterface:
+            tags: ['app.book_loader']
+
+    App\Book\BookInfoService:
+        arguments:
+            - !tagged_iterator 'app.book_loader'
