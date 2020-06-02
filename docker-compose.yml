@@ -1,0 +1,22 @@
+version: '3'
+services:
+   db:
+      image: postgres:12
+      restart: always
+      environment:
+         POSTGRES_USER: ${POSTGRES_USER}
+         POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+         POSTGRES_DB: ${POSTGRES_DB}
+      ports:
+         - 6432:5432
+      volumes:
+         - ./data/pg:/var/lib/postgresql/data
+   app:
+      build: ./docker/app
+      ports:
+         - 8000
+      volumes:
+         - .:/var/www
+      command: ["php", "-S", "0.0.0.0:8000", "-t", "/var/www/public"]
+      environment:
+         DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:6432/${POSTGRES_DB}?serverVersion=12&charset=utf8
