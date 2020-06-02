@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Book\DTO;
+namespace App\Book;
 
 /**
  * Информация о книге.
@@ -14,16 +14,16 @@ class BookInfo
     private $title;
 
     /** @var string */
+    private $author;
+
+    /** @var string */
     private $lang;
 
-    /** @var array|AuthorInfo[] */
-    private $authors;
-
-    public function __construct(string $title, string $lang, iterable $authors)
+    public function __construct(string $title, string $author, string $lang)
     {
         $this->title = $title;
+        $this->author = $author;
         $this->lang = $lang;
-        $this->authors = $authors;
     }
 
     /**
@@ -37,16 +37,16 @@ class BookInfo
     /**
      * @return string
      */
-    public function getLang(): string
+    public function getAuthor(): string
     {
-        return $this->lang;
+        return $this->author;
     }
 
     /**
-     * @return AuthorInfo[]|array
+     * @return string
      */
-    public function getAuthors()
+    public function getLang(): string
     {
-        return $this->authors;
+        return $this->lang;
     }
 }

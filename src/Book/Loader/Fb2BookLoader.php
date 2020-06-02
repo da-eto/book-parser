@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Book\Loader;
 
-use App\Book\DTO\AuthorInfo;
-use App\Book\DTO\BookInfo;
+use App\Book\BookInfo;
 use App\Book\Exception\BookLoaderException;
 use Prewk\XmlStringStreamer;
 use Prewk\XmlStringStreamer\Parser\UniqueNode;
@@ -23,15 +22,20 @@ class Fb2BookLoader implements BookLoaderInterface
     private const FORMAT = 'fb2';
 
     /**
+     * Используемый размер чанков при парсинге fb2
+     */
+    private const CHUNK_SIZE = 16384;
+
+    /**
      * Загружает информацию о книге из файла.
      * @param string $filename путь к файлу книги
      * @return BookInfo
-     * @throws \Exception
+     * @throws BookLoaderException
      */
     public function loadBookInfo(string $filename): BookInfo
     {
         try {
-            $stream = new File($filename, 16384);
+            $stream = new File($filename, self::CHUNK_SIZE);
             $parser = new UniqueNode(['uniqueNode' => 'description']);
             $streamer = new XmlStringStreamer($parser, $stream);
             $nodeData = $streamer->getNode();
@@ -63,7 +67,7 @@ class Fb2BookLoader implements BookLoaderInterface
         $lang = (string) $langNodes[0];
 
         $authorNodes = $description->xpath('title-info/author');
-        $authors = [];
+        $author = '';
 
         foreach ($authorNodes as $authorNode) {
             $firstNameNodes = $authorNode->xpath('first-name');
@@ -74,20 +78,25 @@ class Fb2BookLoader implements BookLoaderInterface
                 continue;
             }
 
-            $authors[] = new AuthorInfo(
-                (string) $firstNameNodes[0],
-                (string) $lastNameNodes[0],
-                (count($middleNameNodes) > 0 ? (string) $middleNameNodes[0] : '')
-            );
+            $nameParts = [(string) $firstNameNodes[0]];
+
+            if (count($middleNameNodes) > 0) {
+                $nameParts[] = (string) $middleNameNodes[0];
+            }
+
+            $nameParts[] = (string) $lastNameNodes[0];
+            $author = implode(' ', $nameParts);
+
+            break;
         }
 
-        if (count($authors) === 0) {
+        if ($author === '') {
             throw new BookLoaderException(
-                sprintf('Файл "%s": Не найдено ни одного автора с именем и фамилией', $filename)
+                sprintf('Файл "%s": Не найдено ни одного автора с указанными именем и фамилией', $filename)
             );
         }
 
-        return new BookInfo($title, $lang, $authors);
+        return new BookInfo($title, $author, $lang);
     }
 
     /**

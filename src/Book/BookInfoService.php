@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Book;
 
-use App\Book\DTO\BookInfo;
 use App\Book\Exception\InvalidArgumentBookException;
 use App\Book\Exception\LogicBookException;
 use App\Book\Loader\BookLoaderInterface;

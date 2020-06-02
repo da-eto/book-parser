@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Book\Loader;
 
-use App\Book\DTO\BookInfo;
+use App\Book\BookInfo;
 
 /**
  * Интерфейс загрузчика информации о книге.
