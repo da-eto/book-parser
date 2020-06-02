@@ -30,6 +30,6 @@ services:
         App\Book\Loader\BookLoaderInterface:
             tags: ['app.book_loader']
 
-    App\Book\BookInfoService:
+    App\Book\BookParser:
         arguments:
             - !tagged_iterator 'app.book_loader'

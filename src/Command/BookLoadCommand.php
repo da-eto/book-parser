@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Book\BookInfoService;
+use App\Book\BookParser;
+use App\Book\BookStorage;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,13 +21,18 @@ class BookLoadCommand extends Command
     protected static $defaultName = 'book:load';
 
     /**
-     * @var BookInfoService
+     * @var BookParser
      */
-    private $bookInfoService;
+    private $bookParser;
+    /**
+     * @var BookStorage
+     */
+    private $bookStorage;
 
-    public function __construct(BookInfoService $bookInfoService)
+    public function __construct(BookParser $bookParser, BookStorage $bookStorage)
     {
-        $this->bookInfoService = $bookInfoService;
+        $this->bookParser = $bookParser;
+        $this->bookStorage = $bookStorage;
 
         parent::__construct();
     }
@@ -42,12 +48,18 @@ class BookLoadCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $path = $input->getArgument('path');
-        $bookInfo = $this->bookInfoService->loadBookInfo($path);
 
-        // TODO: записывать данные в БД вместо вывода инфы
-        var_dump($bookInfo);
+        $bookInfo = $this->bookParser->loadBookInfo($path);
+        $io->success('Информация о книге загружена из файла');
 
-        $io->success('Книга успешно загружена.');
+        $io->table(['Название', 'Автор', 'Язык'], [[
+            $bookInfo->getTitle(),
+            $bookInfo->getAuthor(),
+            $bookInfo->getLang(),
+        ]]);
+
+        $this->bookStorage->storeBook($bookInfo);
+        $io->success('Информация о книге добавлена в библиотеку');
 
         return 0;
     }

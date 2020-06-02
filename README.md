@@ -22,6 +22,5 @@ $ docker-compose exec app bash
 Установка зависимостей, создание БД:
 ```shell script
 root@app:/var/www# composer install
-root@app:/var/www# php bin/console doctrine:database:create
 ```
 

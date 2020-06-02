@@ -8,7 +8,11 @@ use App\Book\Exception\InvalidArgumentBookException;
 use App\Book\Exception\LogicBookException;
 use App\Book\Loader\BookLoaderInterface;
 
-class BookInfoService
+/**
+ * Парсер информации о книгах.
+ * @package App\Book
+ */
+class BookParser
 {
     /**
      * @var iterable|BookLoaderInterface[]
