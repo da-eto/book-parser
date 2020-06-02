@@ -22,5 +22,13 @@ $ docker-compose exec app bash
 Установка зависимостей, создание БД:
 ```shell script
 root@app:/var/www# composer install
+root@app:/var/www# php bin/console doctrine:migrations:migrate
 ```
 
+### Запуск команд
+
+Добавление книг в библиотеку:
+```shell script
+root@app:/var/www# php bin/console book:load data/books/light.epub
+root@app:/var/www# php bin/console book:load data/books/devil.fb2
+```
