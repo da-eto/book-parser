@@ -8,3 +8,6 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+## Intellij IDE (IDEA, PhpStorm, etc)
+/.idea/
