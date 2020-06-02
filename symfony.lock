@@ -8,6 +8,9 @@
     "php": {
         "version": "7.2"
     },
+    "prewk/xml-string-streamer": {
+        "version": "0.13.0"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
