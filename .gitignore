@@ -12,8 +12,5 @@
 ## Intellij IDE (IDEA, PhpStorm, etc)
 /.idea/
 
-## Books (fb2, epub)
-data/books
-
 ## Postgres data (docker volume)
 data/pg
