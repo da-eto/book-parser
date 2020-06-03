@@ -76,4 +76,20 @@ class BookRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Статистика по количеству книг по дням календаря
+     * @return iterable
+     */
+    public function getCreationDateStats(): iterable
+    {
+        $connection = $this->getEntityManager()->getConnection();
+
+        return $connection->fetchAll('
+            SELECT created_at::date as date, COUNT(*) AS cnt
+            FROM book
+            GROUP BY created_at::date
+            ORDER BY created_at::date DESC
+        ');
+    }
 }

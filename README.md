@@ -37,3 +37,8 @@ root@app:/var/www# php bin/console book:load data/books/alice.fb2
 ```shell script
 root@app:/var/www# php bin/console book:search Alice
 ```
+
+Сводная статистика по библиотеке:
+```shell script
+root@app:/var/www# php bin/console book:stats
+```

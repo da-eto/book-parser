@@ -52,4 +52,32 @@ class AuthorRepository extends ServiceEntityRepository
 
         return $author;
     }
+
+    /**
+     * Возвращает авторов без произведений
+     * @return iterable|Author[]
+     */
+    public function findAuthorsWithoutBooks(): iterable
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.books', 'b')
+            ->groupBy('a')
+            ->having('COUNT(b.id) = 0')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Возвращает авторов с произведениями и количество для каждого.
+     * @return iterable
+     */
+    public function findAuthorsAndBooksCount(): iterable
+    {
+        return $this->createQueryBuilder('a')
+            ->select(['a', 'COUNT(b.id)'])
+            ->innerJoin('a.books', 'b')
+            ->groupBy('a')
+            ->getQuery()
+            ->getResult();
+    }
 }

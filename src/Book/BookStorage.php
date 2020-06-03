@@ -62,4 +62,52 @@ class BookStorage
     {
         return $this->bookRepository->findByTitleLike($title);
     }
+
+    /**
+     * Возвращает имена авторов без произведений.
+     * @return array
+     */
+    public function getAuthorsWithoutBooksStats(): array
+    {
+        $stats = [];
+        $authors = $this->authorRepository->findAuthorsWithoutBooks();
+
+        foreach ($authors as $author) {
+            $stats[] = $author->getFullName();
+        }
+
+        return $stats;
+    }
+
+    /**
+     * Возвращает статистику по авторам с произведениями в библиотеке и количеству произведений каждого
+     * @return array
+     */
+    public function getAuthorsAndBooksCountStats(): array
+    {
+        $stats = [];
+        $authorsAndCount = $this->authorRepository->findAuthorsAndBooksCount();
+
+        foreach ($authorsAndCount as list($author, $count)) {
+            $stats[$author->getFullName()] = $count;
+        }
+
+        return $stats;
+    }
+
+    /**
+     * Возвращает статистику по количеству загруженных книг в каждый день, когда они загружались
+     * @return array
+     */
+    public function getBooksCalendarStats(): array
+    {
+        $stats = [];
+        $datesAndCount = $this->bookRepository->getCreationDateStats();
+
+        foreach ($datesAndCount as $row) {
+            $stats[$row['date']] = $row['cnt'];
+        }
+
+        return $stats;
+    }
 }
